@@ -13,7 +13,7 @@ async function downloadVideo() {
     result.classList.add('hidden');
 
     try {
-        const response = await fetch('https://api.cobalt.tools/api/json', {
+        const response = await fetch('https://api.cobalt.tools/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -25,19 +25,22 @@ async function downloadVideo() {
         });
 
         const data = await response.json();
-        console.log("API Response Data:", data); // මෙයින් API එකෙන් එන දත්ත Console එකට Print වේ
+        console.log("API Response:", data);
 
         loading.classList.add('hidden');
 
-        if (data && (data.url || data.picker)) {
-            downloadBtn.href = data.url || data.picker[0].url;
+        if (data && data.url) {
+            downloadBtn.href = data.url;
+            result.classList.remove('hidden');
+        } else if (data && data.picker && data.picker.length > 0) {
+            downloadBtn.href = data.picker[0].url;
             result.classList.remove('hidden');
         } else {
-            alert('API Message: ' + (data.text || data.status || 'Unable to fetch video'));
+            alert('Could not fetch video. Please try a different link.');
         }
     } catch (error) {
         loading.classList.add('hidden');
-        console.error("Fetch Error:", error);
-        alert('An error occurred! Check the console for details.');
+        console.error("Error:", error);
+        alert('An error occurred while connecting to the server.');
     }
 }

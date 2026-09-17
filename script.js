@@ -13,19 +13,9 @@ async function downloadVideo() {
     result.classList.add('hidden');
 
     try {
-        const response = await fetch('https://api.cobalt.tools/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                url: urlInput
-            })
-        });
-
+        // Vercel Serverless Function එකට Request එක යැවීම
+        const response = await fetch(`/api/download?url=${encodeURIComponent(urlInput)}`);
         const data = await response.json();
-        console.log("API Response:", data);
 
         loading.classList.add('hidden');
 
@@ -36,11 +26,10 @@ async function downloadVideo() {
             downloadBtn.href = data.picker[0].url;
             result.classList.remove('hidden');
         } else {
-            alert('Could not fetch video. Please try a different link.');
+            alert('Could not fetch video. Please check the URL or try another link.');
         }
     } catch (error) {
         loading.classList.add('hidden');
-        console.error("Error:", error);
         alert('An error occurred while connecting to the server.');
     }
 }

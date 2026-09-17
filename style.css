@@ -218,15 +218,19 @@ button:hover {
     }
 }
 .footer {
-    margin-top: 60px;
-    text-align: center;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    margin: 0;
+    text-align: left;
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
     font-family: 'Poppins', sans-serif;
+    z-index: 1000;
 }
 
 .footer span {
     font-weight: 600;
-    color: #00d2ff; /* ලස්සන Glow වෙන පාටක් */
+    color: #00d2ff;
     text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
 }

@@ -12,31 +12,33 @@ async function downloadVideo() {
     loading.classList.remove('hidden');
     result.classList.add('hidden');
 
-    // RapidAPI Fetch Request
-    const options = {
-        method: 'POST',
-        headers: {
-            'x-rapidapi-key': '1861fb2938msh660393d9ef8eceep15844djsn12d892a83flf', // Insert your API key here
-            'x-rapidapi-host': 'youtube-media-downloader.p.rapidapi.com',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ url: urlInput })
-    };
-
     try {
-        const response = await fetch('https://social-media-video-downloader.p.rapidapi.com/smvd/get-video-url', options);
+        const response = await fetch(`https://youtube-media-downloader.p.rapidapi.com/v2/video/details?url=${encodeURIComponent(urlInput)}`, {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': '1861fb2938msh660393d9ef8eceep15844djsn12d892a83f1f',
+                'x-rapidapi-host': 'youtube-media-downloader.p.rapidapi.com'
+            }
+        });
+
         const data = await response.json();
+        console.log("API Response:", data);
 
         loading.classList.add('hidden');
 
-        if (data && data.download_url) {
-            downloadBtn.href = data.download_url;
+        // Extract download link from response
+        if (data && data.videos && data.videos.items && data.videos.items.length > 0) {
+            downloadBtn.href = data.videos.items[0].url;
+            result.classList.remove('hidden');
+        } else if (data && data.audios && data.audios.items && data.audios.items.length > 0) {
+            downloadBtn.href = data.audios.items[0].url;
             result.classList.remove('hidden');
         } else {
-            alert('Unable to fetch video. Please check the URL and try again.');
+            alert('Could not fetch video download link. Make sure the API plan is active.');
         }
     } catch (error) {
         loading.classList.add('hidden');
-        alert('An error occurred! Please check your RapidAPI key or connection.');
+        console.error("Error:", error);
+        alert('An error occurred while fetching the video.');
     }
 }

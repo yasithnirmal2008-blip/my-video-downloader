@@ -12,24 +12,31 @@ async function downloadVideo() {
     loading.classList.remove('hidden');
     result.classList.add('hidden');
 
+    // RapidAPI Fetch Request
+    const options = {
+        method: 'POST',
+        headers: {
+            'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY', // Insert your API key here
+            'x-rapidapi-host': 'social-media-video-downloader.p.rapidapi.com',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: urlInput })
+    };
+
     try {
-        // Vercel Serverless Function එකට Request එක යැවීම
-        const response = await fetch(`/api/download?url=${encodeURIComponent(urlInput)}`);
+        const response = await fetch('https://social-media-video-downloader.p.rapidapi.com/smvd/get-video-url', options);
         const data = await response.json();
 
         loading.classList.add('hidden');
 
-        if (data && data.url) {
-            downloadBtn.href = data.url;
-            result.classList.remove('hidden');
-        } else if (data && data.picker && data.picker.length > 0) {
-            downloadBtn.href = data.picker[0].url;
+        if (data && data.download_url) {
+            downloadBtn.href = data.download_url;
             result.classList.remove('hidden');
         } else {
-            alert('Could not fetch video. Please check the URL or try another link.');
+            alert('Unable to fetch video. Please check the URL and try again.');
         }
     } catch (error) {
         loading.classList.add('hidden');
-        alert('An error occurred while connecting to the server.');
+        alert('An error occurred! Please check your RapidAPI key or connection.');
     }
 }

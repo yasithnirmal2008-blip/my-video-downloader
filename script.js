@@ -17,7 +17,7 @@ async function downloadVideo() {
             method: 'GET',
             headers: {
                 'x-rapidapi-key': '1861fb2938msh660393d9ef8eceep15844djsn12d892a83f1f',
-                'x-rapidapi-host': 'youtube-media-downloader.p.rapidapi.com'
+                'x-rapidapi-host': 'youtube-video-fast-downloader-24-7.p.rapidapi.com'
             }
         });
 

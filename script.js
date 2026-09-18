@@ -17,7 +17,7 @@ async function downloadVideo() {
         method: 'POST',
         headers: {
             'x-rapidapi-key': '1861fb2938msh660393d9ef8eceep15844djsn12d892a83flf', // Insert your API key here
-            'x-rapidapi-host': 'social-media-video-downloader.p.rapidapi.com',
+            'x-rapidapi-host': 'youtube-media-downloader.p.rapidapi.com',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ url: urlInput })
